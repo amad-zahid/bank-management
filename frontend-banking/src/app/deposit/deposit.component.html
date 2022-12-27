@@ -1,0 +1,144 @@
+<!-- <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="/assets/logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
+      Account System
+    </a>
+    <a class="pull-right" href="#">
+      <img src="/assets/logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
+      Logout
+    </a>
+  </div>
+</nav>
+<div class="row">
+  <div class="col-md-2 " style="background-color: #e3f2fd;">
+    this is for side bar
+  </div>
+  <div class="col-md-9">
+    <h6>Welcome into your acccount</h6>
+  </div>
+</div> -->
+<!--Main Navigation-->
+<header>
+  <!-- Sidebar -->
+
+  <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
+    <div class="position-sticky">
+      <div class="list-group list-group-flush mx-3 mt-4">
+
+        <a
+          class="list-group-item list-group-item-action py-2 ripple"
+          aria-current="true"
+        >
+          <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>
+        </a>
+        <a routerLink="../dashboard" class="list-group-item list-group-item-action py-2 ripple ">
+          <i class="fas fa-chart-area fa-fw me-3"></i><span>My Account</span>
+        </a>
+        <a  class="list-group-item list-group-item-action py-2 ripple"
+          ><i class="fas fa-lock fa-fw me-3"></i><span>Deposit</span></a
+        >
+        <a routerLink="../transaction" class="list-group-item list-group-item-action py-2 ripple active"
+          ><i class="fas fa-chart-line fa-fw me-3"></i><span>Transfer</span></a
+        >
+        <!-- <a href="#" class="list-group-item list-group-item-action py-2 ripple">
+          <i class="fas fa-chart-pie fa-fw me-3"></i><span>SEO</span>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action py-2 ripple"
+          ><i class="fas fa-chart-bar fa-fw me-3"></i><span>Orders</span></a
+        >
+        <a href="#" class="list-group-item list-group-item-action py-2 ripple"
+          ><i class="fas fa-globe fa-fw me-3"></i><span>International</span></a
+        >
+        <a href="#" class="list-group-item list-group-item-action py-2 ripple"
+          ><i class="fas fa-building fa-fw me-3"></i><span>Partners</span></a
+        > -->
+        <a href="#" class="list-group-item list-group-item-action py-2 ripple"
+          ><i class="fas fa-calendar fa-fw me-3"></i><span>Users</span></a
+        >
+        <a (click)="logOut()" class="list-group-item list-group-item-action py-2 ripple"
+          ><i class="fas fa-users fa-fw me-3"></i><span>Logout</span></a
+        >
+        <!-- <a href="#" class="list-group-item list-group-item-action py-2 ripple"
+          ><i class="fas fa-money-bill fa-fw me-3"></i><span>Sales</span></a
+        > -->
+      </div>
+    </div>
+  </nav>
+  <!-- Sidebar -->
+
+  <!-- Navbar -->
+
+  <!-- Navbar -->
+</header>
+<!--Main Navigation-->
+
+<!--Main layout-->
+<main style="margin-top: 58px;">
+  <div class="container pt-4">
+    <ng-container>
+      <div class="container">
+        <div class="row mt-sm">
+          <div class="col-md-6 offset-md-0">
+            <div class="card mt-4">
+              <h4 class="card-header">Transaction</h4>
+              <div class="card-body">
+                <form [formGroup]="form" (ngSubmit)="transaction()">
+                  <div class="form-group">
+                    <label for="from_id">From Account</label>
+                    <input type="text" formControlName="from_id" class="form-control" [disabled]="true" />
+                    <!-- <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                              <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                          </div> -->
+                  </div>
+                  <div class="form-group">
+                    <label for="to_id">To Account</label>
+                    <select class="form-control text-area-width" formControlName="to_id" #to_id name="to_id"
+                    (ngModelChange)="onAccountChange($event)"
+                    [(ngModel)]="model.to_id">
+
+                      <option value="0">-- Select Account --</option>
+                      <option *ngFor="let user of accounts" [value]="user.id">{{user.username}} - {{user.accountNo}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <input type="number" formControlName="amount" class="form-control" />
+                      </div>
+                      <div class="col-md-6">
+                        Current Balance : {{debitBalance}}
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="form-group">
+                    <label for="remarks">Remarks</label>
+                    <input type="text" formControlName="remarks" class="form-control" />
+                  </div>
+
+                  <div class="form-group">
+
+                    <div class="mt-3">
+                      <button type="submit" [disabled]="loading" class="btn btn-primary">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                        Transferred
+                      </button>
+                      <a routerLink="../dashboard" class="btn btn-link">Cancel</a>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </ng-container>
+
+
+   <!-- <app-transaction></app-transaction> -->
+  </div>
+</main>
+<!--Main layout-->
