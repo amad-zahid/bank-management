@@ -4,31 +4,32 @@
       <div class="card mt-4">
         <h4 class="card-header">Register</h4>
         <div class="card-body">
-            <form [formGroup]="form" (ngSubmit)="singupdata()">
+            <form [formGroup]="form" (ngSubmit)="register()">
                 <div class="form-group">
-                    <label for="firstName">First Name</label>
-                    <input type="text" formControlName="firstName" class="form-control"  />
-                    <!-- <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-                        <div *ngIf="f.firstName.errors.required">First Name is required</div>
-                    </div> -->
+                    <label for="name">First Name</label>
+                    <input type="text" formControlName="name" class="form-control"  />
+                    <span class="text-danger" *ngIf="wrongSubmission && form.controls['name'].invalid ">This field is
+                      required</span>
+
                 </div>
                 <div class="form-group">
-                    <label for="lastName">Last Name</label>
-                    <input type="text" formControlName="lastName" class="form-control" />
-
+                    <label for="last_name">Last Name</label>
+                    <input type="text" formControlName="last_name" class="form-control" />
+                    <span class="text-danger" *ngIf="wrongSubmission && form.controls['last_name'].invalid ">This field is
+                      required</span>
                 </div>
                 <div class="form-group">
                   <label for="email">Email</label>
                   <input type="text" formControlName="email" class="form-control" />
+                  <span class="text-danger" *ngIf="wrongSubmission && form.controls['email'].invalid ">This field is
+                    required</span>
 
               </div>
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" formControlName="username" class="form-control"  />
-                </div>
-                <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" formControlName="password" class="form-control" />
+                    <span class="text-danger" *ngIf="wrongSubmission && form.controls['password'].invalid ">This field is
+                      required</span>
                 </div>
                 <div class="form-group">
 

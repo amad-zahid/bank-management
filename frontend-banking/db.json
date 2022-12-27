@@ -1,0 +1,467 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "firstName": "amad",
+      "lastName": "zahid",
+      "username": "amad",
+      "email": "amad@gmail.com",
+      "accountNo": "account-001",
+      "branch": "lahore",
+      "password": "abc123",
+      "balance": 48000
+    },
+    {
+      "firstName": "safoor",
+      "lastName": "safdar",
+      "username": "safoor",
+      "accountNo": "1000-1671973209",
+      "balance": 1000,
+      "email": "safoor@gmail.com",
+      "password": "abc123",
+      "id": 2
+    }
+  ],
+  "balance": [
+    {
+      "id": 1,
+      "accountid": 1,
+      "accountNo": "1000-001",
+      "currentbalance": 1000,
+      "updated_date": "2022-12-25"
+    }
+  ],
+  "transaction": [
+    {
+      "id": 1,
+      "from_id": 1,
+      "to_id": 1,
+      "amount": 1000,
+      "currentbalance": 1000,
+      "type": "credit",
+      "date": "2022-12-25",
+      "updated_date": "2022-12-25"
+    },
+    {
+      "from_id": 4,
+      "to_id": "3",
+      "amount": 500,
+      "type": "credit",
+      "date": "2022-12-25T10:40:28.435Z",
+      "id": 2
+    },
+    {
+      "from_id": 4,
+      "to_id": "3",
+      "amount": 500,
+      "type": "debit",
+      "date": "2022-12-25T10:40:28.442Z",
+      "id": 3
+    },
+    {
+      "from_id": 3,
+      "to_id": "4",
+      "accountid": "4",
+      "amount": 200,
+      "type": "credit",
+      "date": "2022-12-25T10:54:40.874Z",
+      "id": 4
+    },
+    {
+      "from_id": 3,
+      "to_id": "4",
+      "accountid": 3,
+      "amount": 200,
+      "type": "debit",
+      "date": "2022-12-25T10:54:40.875Z",
+      "id": 5
+    },
+    {
+      "from_id": 3,
+      "to_id": "4",
+      "accountid": "4",
+      "amount": 400,
+      "type": "credit",
+      "date": "2022-12-25T10:56:41.074Z",
+      "id": 6
+    },
+    {
+      "from_id": 3,
+      "to_id": "4",
+      "accountid": 3,
+      "amount": 400,
+      "type": "debit",
+      "date": "2022-12-25T10:56:41.075Z",
+      "id": 7
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 4,
+      "amount": 100,
+      "type": "credit",
+      "date": "2022-12-25T11:08:30.281Z",
+      "id": 8
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 1,
+      "amount": 100,
+      "type": "debit",
+      "date": "2022-12-25T11:08:30.283Z",
+      "id": 9
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 4,
+      "amount": 0,
+      "type": "credit",
+      "date": "2022-12-25T11:30:40.353Z",
+      "id": 10
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 1,
+      "amount": 0,
+      "type": "debit",
+      "date": "2022-12-25T11:30:40.356Z",
+      "id": 11
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 1,
+      "amount": 200,
+      "type": "debit",
+      "date": "2022-12-25T11:45:22.915Z",
+      "id": 12
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 4,
+      "amount": 200,
+      "type": "credit",
+      "date": "2022-12-25T11:45:22.912Z",
+      "id": 13
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 1,
+      "amount": 200,
+      "type": "debit",
+      "date": "2022-12-25T11:49:15.906Z",
+      "id": 14
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 4,
+      "amount": 200,
+      "type": "credit",
+      "date": "2022-12-25T11:49:15.903Z",
+      "id": 15
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 1,
+      "amount": 500,
+      "type": "debit",
+      "date": "2022-12-25T12:01:55.771Z",
+      "id": 16
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 4,
+      "amount": 500,
+      "type": "credit",
+      "date": "2022-12-25T12:01:55.768Z",
+      "id": 17
+    },
+    {
+      "from_id": 4,
+      "to_id": "1",
+      "accountid": 4,
+      "amount": 100,
+      "type": "debit",
+      "date": "2022-12-25T12:02:49.507Z",
+      "id": 18
+    },
+    {
+      "from_id": 4,
+      "to_id": "1",
+      "accountid": 1,
+      "amount": 100,
+      "type": "credit",
+      "date": "2022-12-25T12:02:49.504Z",
+      "id": 19
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 1,
+      "amount": 50,
+      "type": "debit",
+      "date": "2022-12-25T12:04:14.139Z",
+      "id": 20
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 1,
+      "amount": 50,
+      "type": "debit",
+      "date": "2022-12-25T12:09:07.650Z",
+      "id": 21
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 4,
+      "amount": 50,
+      "type": "credit",
+      "date": "2022-12-25T12:09:07.648Z",
+      "id": 22
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 1,
+      "amount": 100,
+      "type": "debit",
+      "date": "2022-12-25T12:10:52.658Z",
+      "id": 23
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 4,
+      "amount": 100,
+      "type": "credit",
+      "date": "2022-12-25T12:10:52.656Z",
+      "id": 24
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 4,
+      "amount": 150,
+      "type": "credit",
+      "date": "2022-12-25T12:14:07.791Z",
+      "id": 25
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 1,
+      "amount": 150,
+      "type": "debit",
+      "date": "2022-12-25T12:14:07.799Z",
+      "id": 26
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 4,
+      "amount": 700,
+      "type": "credit",
+      "date": "2022-12-25T12:24:35.238Z",
+      "id": 27
+    },
+    {
+      "from_id": 4,
+      "to_id": "2",
+      "accountid": 2,
+      "amount": 150,
+      "type": "credit",
+      "date": "2022-12-25T12:25:46.806Z",
+      "id": 28
+    },
+    {
+      "from_id": 4,
+      "to_id": "2",
+      "accountid": 4,
+      "amount": 150,
+      "type": "debit",
+      "date": "2022-12-25T12:25:46.814Z",
+      "id": 29
+    },
+    {
+      "from_id": 1,
+      "to_id": "3",
+      "accountid": 3,
+      "amount": 700,
+      "type": "credit",
+      "date": "2022-12-25T12:29:01.463Z",
+      "id": 30
+    },
+    {
+      "from_id": 1,
+      "to_id": "3",
+      "accountid": 1,
+      "amount": 700,
+      "type": "debit",
+      "date": "2022-12-25T12:29:01.469Z",
+      "id": 31
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 4,
+      "amount": 100,
+      "type": "credit",
+      "date": "2022-12-25T12:37:59.990Z",
+      "id": 32
+    },
+    {
+      "from_id": 1,
+      "to_id": "4",
+      "accountid": 1,
+      "amount": 100,
+      "type": "debit",
+      "date": "2022-12-25T12:37:59.997Z",
+      "id": 33
+    },
+    {
+      "from_id": 4,
+      "to_id": "3",
+      "accountid": 3,
+      "amount": 100,
+      "type": "credit",
+      "date": "2022-12-25T12:38:40.885Z",
+      "id": 34
+    },
+    {
+      "from_id": 4,
+      "to_id": "3",
+      "accountid": 4,
+      "amount": 100,
+      "type": "debit",
+      "date": "2022-12-25T12:38:40.900Z",
+      "id": 35
+    },
+    {
+      "from_id": 3,
+      "to_id": "4",
+      "accountid": 4,
+      "amount": 300,
+      "type": "credit",
+      "date": "2022-12-25T12:39:35.245Z",
+      "id": 36
+    },
+    {
+      "from_id": 3,
+      "to_id": "4",
+      "accountid": 3,
+      "amount": 300,
+      "type": "debit",
+      "date": "2022-12-25T12:39:35.250Z",
+      "id": 37
+    },
+    {
+      "from_id": 3,
+      "to_id": "4",
+      "accountid": 4,
+      "amount": 100,
+      "type": "credit",
+      "date": "2022-12-25T12:40:04.973Z",
+      "id": 38
+    },
+    {
+      "from_id": 3,
+      "to_id": "4",
+      "accountid": 3,
+      "amount": 100,
+      "type": "debit",
+      "date": "2022-12-25T12:40:04.978Z",
+      "id": 39
+    },
+    {
+      "from_id": 4,
+      "to_id": "1",
+      "accountid": 1,
+      "amount": 1100,
+      "type": "credit",
+      "date": "2022-12-25T12:49:06.685Z",
+      "id": 40
+    },
+    {
+      "from_id": 4,
+      "to_id": "1",
+      "accountid": 4,
+      "amount": 1100,
+      "type": "debit",
+      "date": "2022-12-25T12:49:06.689Z",
+      "id": 41
+    },
+    {
+      "from_id": 1,
+      "to_id": "5",
+      "accountid": 5,
+      "amount": 500,
+      "type": "credit",
+      "date": "2022-12-25T12:54:32.661Z",
+      "id": 42
+    },
+    {
+      "from_id": 1,
+      "to_id": "5",
+      "accountid": 1,
+      "amount": 500,
+      "type": "debit",
+      "date": "2022-12-25T12:54:32.666Z",
+      "id": 43
+    },
+    {
+      "from_id": 1,
+      "to_id": "6",
+      "accountid": 6,
+      "amount": 500,
+      "type": "credit",
+      "date": "2022-12-25T12:57:25.486Z",
+      "id": 44
+    },
+    {
+      "from_id": 1,
+      "to_id": "6",
+      "accountid": 1,
+      "amount": 500,
+      "type": "debit",
+      "date": "2022-12-25T12:57:25.504Z",
+      "id": 45
+    },
+    {
+      "from_id": 6,
+      "to_id": "4",
+      "accountid": 4,
+      "amount": 100,
+      "type": "credit",
+      "date": "2022-12-25T12:57:58.157Z",
+      "id": 46
+    },
+    {
+      "from_id": 1,
+      "to_id": "2",
+      "accountid": 2,
+      "amount": 1000,
+      "type": "credit",
+      "date": "2022-12-25T13:00:52.597Z",
+      "id": 47
+    },
+    {
+      "from_id": 1,
+      "to_id": "2",
+      "accountid": 1,
+      "amount": 1000,
+      "type": "debit",
+      "date": "2022-12-25T13:00:52.616Z",
+      "id": 48
+    }
+  ]
+}

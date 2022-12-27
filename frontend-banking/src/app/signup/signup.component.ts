@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { first } from 'rxjs/operators';
+import { SweetalertService } from 'src/services/sweetalert.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-signup',
@@ -11,23 +13,26 @@ import { first } from 'rxjs/operators';
 })
 export class SignupComponent implements OnInit {
   form!: FormGroup;
+  wrongSubmission: boolean = false;
   loading = false;
   submitted = false;
+  baseUrl = environment.baseURL;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private _http: HttpClient
+    private _http: HttpClient,
+    private alert: SweetalertService
   ) {
   }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      username: ['', Validators.required],
+      name: ['', Validators.required],
+      last_name: ['', Validators.required],
+    //  username: ['', Validators.required],
       accountNo: ['', Validators.required],
-      balance: ['', Validators.required],
+    // balance: [0, Validators.required],
       email: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
@@ -35,56 +40,30 @@ export class SignupComponent implements OnInit {
 
   get f() { return this.form.controls; }
 
-  singupdata(){
-    if(this.form.value.username =="" || this.form.value.firstName =="" || this.form.value.firstName ==""){
-      alert('Please enter username, name and email');
-    } else if(this.form.value.password ==""){
-      alert('Please enter password');
+  register() {
+    if (this.form.valid) {
+      this.wrongSubmission = true;
     } else {
       let seconds = new Date().getTime() / 1000;
-      console.log("this is signup account : "+seconds);
-      this.form.value.accountNo = "1000-"+seconds;
-      this.form.value.balance = 0;
+      this.form.value.accountNo = "1000-" + seconds;
+     // this.form.value.balance = 0;
       this.form.value.accountNo = this.form.value.accountNo.split('.')[0];
+      this.form.value.branch = "lahore"
+      this._http.post<any>(`${this.baseUrl}/register`, this.form.value)
+        .subscribe(res => {
+          console.log("res : "+JSON.stringify(res));
+          if (res.success == true) {
+            this.alert.success("success", res.message)
+            this.form.reset();
+            this.router.navigate(['login']);
+          }
+        }, err => {
+          this.alert.error("error", "some thing went wrong")
 
-      console.log(this.form);
-
-      this._http.post<any>("http://localhost:3000/users", this.form.value)
-      .subscribe(res=>{
-        alert('Account created successfully');
-        this.form.reset();
-        this.router.navigate(['login']);
-      }, err=>{
-        alert('Somthing went wrong');
-      })
+        })
     }
 
 
-  }
-
-  onSubmit() {
-    this.submitted = true;
-
-    // reset alerts on submit
-   // this.alertService.clear();
-
-    // stop here if form is invalid
-    if (this.form.invalid) {
-      return;
-    }
-
-    // this.loading = true;
-    // this.accountService.register(this.form.value)
-    //   .pipe(first())
-    //   .subscribe(
-    //     data => {
-    //       this.alertService.success('Registration successful', { keepAfterRouteChange: true });
-    //       this.router.navigate(['../login'], { relativeTo: this.route });
-    //     },
-    //     error => {
-    //       this.alertService.error(error);
-    //       this.loading = false;
-    //     });
   }
 
 }

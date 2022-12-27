@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { first } from 'rxjs/operators';
 import { UsersService } from 'src/services/users.service';
+import { SweetalertService } from 'src/services/sweetalert.service';
+import { TransactionService } from 'src/services/transaction.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-transaction',
@@ -13,166 +16,201 @@ import { UsersService } from 'src/services/users.service';
 export class TransactionComponent implements OnInit {
   form!: FormGroup;
   loading = false;
+  wrongSubmission: boolean = false;
+  isAmountGreater: boolean = false;
+  isBalanceZero: boolean = false;
+  isLoaded = false;
   submitted = false;
   creditBalance = 0;
+  userid = localStorage.getItem("userId");
   debitBalance = localStorage.getItem('currentBalance');
   accounts: any;
   user: any
 
+  now = Date.now();
+  myFormattedDate = this.pipe.transform(this.now, 'yyyy-MM-dd');
+
+
   model = {
-    id : 0,
-    from_id: 0,
-    to_id: 0,
+    id: 0,
+    users_id: 0,
+    transfer_to: 0,
     amount: 0,
-    type: "credit",
-    date: new Date()
-  }
-  constructor(
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private _http: HttpClient,
-    private userService: UsersService
-  ) {
+    remarks: "",
+    type: "credited",
+    transaction_date: this.myFormattedDate
   }
 
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private userService: UsersService,
+    private route: ActivatedRoute,
+    private _http: HttpClient,
+    private alert: SweetalertService,
+    private transctionService: TransactionService,
+    private pipe: DatePipe
+  ) { }
+
   ngOnInit(): void {
-    this.loadUsers();
+
+    //  let date =  Date.now().toString();
+    let date = new Date();
+    const now = Date.now();
+    const myFormattedDate = this.pipe.transform(now, 'yyyy-MM-dd');
+    console.log("date : " + myFormattedDate);
+
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
     this.form = this.formBuilder.group({
-      from_id: [this.user.username +" - "+this.user.accountNo, Validators.required],
-      to_id: ['', Validators.required],
+      users_id: [{ value: this.user.name + " - " + this.user.accountNo, disabled: true }, Validators.required],
+      transfer_to: [0, Validators.required],
       amount: [0, Validators.required],
       remarks: ['', Validators.required],
-      balance: ['', Validators.required],
-    //  email: ['', Validators.required],
-     // password: ['', [Validators.required, Validators.minLength(6)]]
+      // balance: ['', Validators.required],
     });
+    this.debitBalance = localStorage.getItem('currentBalance');
+    this.getBalanceFromUser(Number(this.userid));
+    this.loadUsers();
+    //  this.isLoaded = true;
   }
 
-
-  loadUsers(){
-    console.log("logging calling");
-
-    // console.log(this.login.value);
-     this._http.get<any>("http://localhost:3000/users")
-     .subscribe(res=>{
-       this.accounts = res;
-       console.log(this.accounts);
-
-     }, err=>{
-       alert('Something was wrong');
-     })
-   }
-
-   getToAccountBalance(accountid:number){
-    console.log("logging calling");
-
-    // console.log(this.login.value);
-     this._http.get<any>(`http://localhost:3000/users/${accountid}`)
-     .subscribe(res=>{
-      console.log(res);
-
-       this.creditBalance =  res.balance;
-       console.log("tocccout balannace : "+this.creditBalance);
-
-      // this.updateBalance(accountid,this.creditBalance);
-
-
-     }, err=>{
-       alert('Something was wrong');
-     })
-   }
-
-   transaction(){
-    this.creditAmount();
-    this.debitAmount();
-   // this.updateBalance(this.user.id,this.form.value.amount);
-      alert('Transaction successfully');
-     // this.form.reset();
-      this.router.navigate(['dashboard']);
-   }
-
-  creditAmount(){
-   let modelTest = {
-      from_id: this.user.id,
-      to_id: this.form.value.to_id,
-      accountid: Number(this.form.value.to_id),
-      amount: this.form.value.amount,
-      type: "credit",
-      date: new Date()
-    }
-
-   //  await this.getToAccountBalance(modelTest.accountid);
-
-    console.log("balaanananannan : "+this.creditBalance);
-    this.creditBalance =this.creditBalance + modelTest.amount;
-    this.updateBalance(modelTest.accountid,this.creditBalance);
-
-    this._http.post<any>("http://localhost:3000/transaction", modelTest)
-    .subscribe(res=>{
-      console.log("data credit");
-
-      // alert('data added successfully');
-      // this.form.reset();
-      // this.router.navigate(['login']);
-    }, err=>{
-      alert('Somthing went wrong');
+  getBalanceFromUser(accountid: number) {
+    this.userService.getBalance(accountid).subscribe((res: any) => {
+      this.debitBalance = res.data.balance;
+      localStorage.setItem('currentBalance', res.data.balance);
+    }, (err: string) => {
+      // alert('Something was wrong ');
     })
   }
 
-  debitAmount(){
-    let modelTest = {
-       from_id: this.user.id,
-       to_id: this.form.value.to_id,
-       accountid: this.user.id,
-       amount: this.form.value.amount,
-       type: "debit",
-       date: new Date()
-     }
+  loadUsers() {
+    console.log("all accounts");
+    this.userService.getAllAccounts()
+      .subscribe(res => {
+        this.accounts = res.data;
+        this.RemoveElementFromArray(this.user.id);
+        console.log(this.accounts);
+        this.isLoaded = true;
+      }, err => {
+        this.alert.error('Error', 'Something was wrong');
+      })
+  }
 
-     let balance = Number(this.debitBalance) - modelTest.amount;
-       this.updateBalance(this.user.id,balance);
+  getBalance(accountid: number) {
+    this.userService.getBalance(accountid).subscribe((res: any) => {
+      // this.currentBalance = res.balance;
+      this.debitBalance = localStorage.getItem('currentBalance');
+    }, (err: string) => {
+      // alert('Something was wrong ');
+    })
+  }
 
-     this._http.post<any>("http://localhost:3000/transaction", modelTest)
-     .subscribe(res=>{
-       console.log("data debit");
+  transaction() {
+    this.model.users_id = this.user.id;
+    this.model.transfer_to = Number(this.form.value.transfer_to);
+    this.model.amount = this.form.value.amount;
+    this.model.remarks = this.form.value.remarks;
+    if ( this.form.value.amount > Number(this.debitBalance)) {
+      this.isAmountGreater = true;
+    } else if (this.model.transfer_to == 0) {
+      this.wrongSubmission = true;
+    } else if(this.form.value.amount == 0){
+      this.isBalanceZero = true;
+    }
+     else {
+      this.creditAmount();
+    }
+  }
 
+  creditAmount() {
+    return new Promise((resolve, reject) => {
+      this.model.users_id = this.user.id;
+      this.model.transfer_to = Number(this.form.value.transfer_to);
+      this.model.amount = this.form.value.amount;
+      this.model.remarks = this.form.value.remarks;
+      this.model.type = 'credited'
+      this.transctionService.transfer(this.model)
+        .subscribe(res => {
+          console.log("res : " + JSON.stringify(res));
+          if (res.success == true) {
+            this.alert.success("Success", "Successfully transferred.")
+            this.form.reset();
+            this.router.navigate(['../dashboard']);
+            return resolve(true);
+          }
+        }, err => {
+          this.alert.error("error", "some thing went wrong")
+          return reject(false);
+        })
+    })
+  }
 
-       // alert('data added successfully');
-       // this.form.reset();
-       // this.router.navigate(['login']);
-     }, err=>{
-       alert('Somthing went wrong');
-     })
-   }
+  RemoveElementFromArray(element: number) {
+    this.accounts.forEach((value:any,index:number)=>{
+        console.log(value);
+        if(value.id == element) this.accounts.splice(index,1);
+    });
+}
 
-   updateBalance(accountid:number,balance:number){
+  debitAmount(value: any) {
+    return new Promise((resolve, reject) => {
+      this.model.users_id = this.user.id;
+      this.model.transfer_to = Number(this.form.value.transfer_to);
+      this.model.amount = this.form.value.amount;
+      this.model.remarks = this.form.value.remarks;
+      this.model.type = 'deposit'
+      this.transctionService.transfer(this.model)
+        .subscribe(res => {
+          console.log("res : " + JSON.stringify(res));
+          if (res.success == true) {
+            console.log("vlauess :" + value);
+            this.alert.success("Success", "Successfully transferred.")
+            this.form.reset();
+            this.router.navigate(['../dashboard']);
+            return resolve(true);
+            // this.alert.success("Success","Successfully transferred.")
+            // this.form.reset();
+            //  this.router.navigate(['../dashboard']);
+          }
+        }, err => {
+          this.alert.error("error", "some thing went wrong")
+          return reject(false);
+        })
+    })
+    // this.alert.success("Success","Successfully transferred.")
+
+  }
+
+  updateBalance(accountid: number, balance: number) {
     let model = {
-      id : accountid,
+      id: accountid,
       balance: balance
     }
     this._http.patch<any>(`http://localhost:3000/users/${accountid}/`, model)
-    .subscribe(res=>{
-    //  alert('data added successfully');
-      // this.form.reset();
-      // this.router.navigate(['login']);
-    }, err=>{
-      alert('Somthing went wrong');
-    })
+      .subscribe(res => {
+        //  alert('data added successfully');
+        // this.form.reset();
+        // this.router.navigate(['login']);
+      }, err => {
+        alert('Somthing went wrong');
+      })
 
   }
 
-  onAccountChange(vale:any){
+  onAccountChange(vale: any) {
     console.log("account changeing " + JSON.stringify(vale));
-    if(Number(vale)>0)
-    {
-      this.getToAccountBalance(Number(vale));
+    if (Number(vale) > 0) {
+      this.user
+      this.getBalance(Number(vale));
     }
 
 
 
+  }
+  logOut() {
+    localStorage.removeItem("user");
+    this.router.navigate(['login']);
   }
 
 }

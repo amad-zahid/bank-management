@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { RegistrationService } from 'src/services/registration.service';
+import { SweetalertService } from 'src/services/sweetalert.service';
 
 @Component({
   selector: 'app-login-page',
@@ -11,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LoginPageComponent implements OnInit {
 
+  wrongSubmission: boolean = false;
   myDate = new Date();
   login!: FormGroup;
   loading = false;
@@ -19,48 +22,49 @@ export class LoginPageComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private _http: HttpClient
+    private _http: HttpClient,
+    private register: RegistrationService,
+    private alert: SweetalertService
   ) {
   }
 
   ngOnInit(): void {
     localStorage.removeItem('user');
     this.login = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      username: ['', Validators.required],
-      accountNo: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
-  logindata(){
-    console.log("logging calling");
+  onSubmit() {
+    if (!this.login.valid) {
+        this.wrongSubmission = true;
+    } else {
+      this.wrongSubmission = false;
+      let model = {
+        email: this.login.value.email,
+        password: this.login.value.password
+      }
+      this.register.login(model)
+        .subscribe((res: any) => {
+          if (res.success == true) {
+            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("userId", res.data.id);
+            localStorage.setItem("user", JSON.stringify(res.data.user));
+            localStorage.setItem("isLoggedIn", 'true');
 
-    // console.log(this.login.value);
-     this._http.get<any>("http://localhost:3000/users")
-     .subscribe(res=>{
-       const user = res.find((a:any)=>{
-         return a.username === this.login.value.username && a.password === this.login.value.password
-       });
+            console.log("res on login : " + JSON.stringify(res));
+            this.login.reset();
+            this.router.navigate(['dashboard']);
+          } else {
+            this.alert.success("Oops", res.message);
 
-       if(user){
-        localStorage.setItem("user", JSON.stringify(user));
-       //  alert('you are successfully login');
-         this.login.reset();
-       //  $('.form-box').css('display','none');
-         this.router.navigate(['dashboard']);
-       }else{
-         alert('User Not Found');
-         this.router.navigate(['login']);
-       }
+          }
 
-     }, err=>{
-       alert('Something was wrong');
-     })
-   }
-
-  onSubmit(){
+        }, err => {
+          this.alert.error("error", "some thing went wrong");
+        })
+    }
 
   }
 

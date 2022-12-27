@@ -4,16 +4,18 @@
       <div class="card mt-4">
         <h4 class="card-header">Login</h4>
         <div class="card-body">
-            <form [formGroup]="login" (ngSubmit)="logindata()">
+            <form [formGroup]="login" (ngSubmit)="onSubmit()">
 
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" formControlName="username" class="form-control"  />
+                    <label for="email">Email</label>
+                    <input type="text" formControlName="email" class="form-control"  />
+                    <span class="text-danger" *ngIf="wrongSubmission && login.controls['email'].invalid ">Please enter email</span>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" formControlName="password" class="form-control" />
+                    <span class="text-danger" *ngIf="wrongSubmission && login.controls['password'].invalid ">please enter password</span>
                 </div>
                 <div class="form-group">
 

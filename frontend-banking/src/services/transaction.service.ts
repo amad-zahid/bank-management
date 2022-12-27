@@ -3,14 +3,12 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
-
 @Injectable({
   providedIn: 'root'
 })
-export class UsersService {
+export class TransactionService {
 
   private baseUrl = environment.baseURL;
-
 
   constructor(
     private route: ActivatedRoute,
@@ -18,19 +16,8 @@ export class UsersService {
     private _http: HttpClient
   ) { }
 
-
-  getUserDetail(id: number) {
-    console.log("getting user detail");
-
-    return this._http.get<any>(`${this.baseUrl}/users/${id}`)
-  }
-
-  getAllAccounts() {
-    return this._http.get<any>(`${environment.baseURL}/users`);
-  }
-
-  getBalance(id: number) {
-    return this._http.get<any>(`${this.baseUrl}/users/${id}`)
-  }
+  transfer(model:any){
+    return this._http.post<any>(`${this.baseUrl}/transactions`,model)
+   }
 
 }
